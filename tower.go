@@ -9,6 +9,7 @@ import (
 type Action struct {
 	Name        string
 	Probability float32
+	Description string
 }
 
 // Sampler samples data according to the probability
