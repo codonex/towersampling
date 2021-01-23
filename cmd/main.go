@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/codonex/towersampling/pkg/towersampling"
+
+	"github.com/codonex/towersampling"
 )
 
 func main() {
@@ -13,16 +14,16 @@ func main() {
 		{Name: "Eat", Probability: 0.27},
 	})
 
-	action_freq := map[string]float32{}
+	actionFreq := map[string]float32{}
 	const N = 1000000
 	for i := 0; i < N; i++ {
 		value, _ := sampler()
-		action_freq[value] += 1
+		actionFreq[value]++
 	}
 
-	for k, v := range action_freq {
-		action_freq[k] = v / N
+	for k, v := range actionFreq {
+		actionFreq[k] = v / N
 	}
-	fmt.Println(action_freq)
+	fmt.Println(actionFreq)
 
 }
