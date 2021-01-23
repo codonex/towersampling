@@ -1,5 +1,4 @@
-module github.com/codonex/towersampling/v2
+module github.com/codonex/towersampling
 
 go 1.15
 
-require github.com/codonex/towersampling v1.1.1
