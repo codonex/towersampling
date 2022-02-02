@@ -9,7 +9,7 @@ import (
 func main() {
 	sampler := towersampling.Sampler([]towersampling.Action{
 		{Name: "Sleep", Probability: 0.33},
-		{Name: "Walk", Probability: 0.05},
+		{Name: "Walk", Probability: 0.03},
 		{Name: "Watch", Probability: 0.35},
 		{Name: "Eat", Probability: 0.27},
 	})
