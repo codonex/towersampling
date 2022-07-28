@@ -5,35 +5,54 @@ import (
 	"math/rand"
 )
 
-// Action Action object
-type Action struct {
-	Name        string
+// Action or event name
+type Action string
+
+// Event is event object
+type Event struct {
+	Name        Action
 	Probability float32
 	Description string
 }
 
-// Sampler samples data according to the probability
-//
-func Sampler(actions []Action) func() (string, error) {
-	probabilities := make([]float32, len(actions))
-	events := make([]string, len(actions))
-	for i, e := range actions {
+// Sampler samples data according to given discrete distribution
+// This can be used to generate events for giving distribution
+// For example, for following distribution,
+// const (
+// 	Sleep = towersampling.Action("Sleep")
+// 	Walk  = towersampling.Action("Walk")
+// 	Watch = towersampling.Action("Watch")
+// 	Eat   = towersampling.Action("Eat")
+// )
+// ...
+// sampler := towersampling.Sampler([]towersampling.Event{
+// 	{Name: Sleep, Probability: 0.33},
+// 	{Name: Walk, Probability: 0.05},
+// 	{Name: Watch, Probability: 0.35},
+// 	{Name: Eat, Probability: 0.27},
+// })
+// value, err := sampler()
+// the sampler will return Sleep with 33% probability.
+func Sampler(events []Event) func() (Action, error) {
+	distributions := make([]float32, len(events))
+	eventNames := make([]Action, len(events))
+	for i, e := range events {
 		if i == 0 {
-			probabilities[i] = e.Probability
+			distributions[i] = e.Probability
 		} else {
-			probabilities[i] = e.Probability + probabilities[i-1]
+			distributions[i] = e.Probability + distributions[i-1]
 		}
-		events[i] = e.Name
+		eventNames[i] = e.Name
 	}
 
-	return func() (string, error) {
+	return func() (Action, error) {
 		value := rand.Float32()
-		for i, p := range probabilities {
+		for i, p := range distributions {
 			if value <= p {
-				return events[i], nil
+				return eventNames[i], nil
 			}
 		}
-		return "", errors.New("No action")
+		return "", errors.New("no action")
 	}
 
 }
