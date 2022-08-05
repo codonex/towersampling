@@ -6,7 +6,7 @@ import (
 )
 
 // Action or event name
-type Action interface{}
+type Action string
 
 // Event is event object
 type Event struct {
