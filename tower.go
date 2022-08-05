@@ -6,7 +6,7 @@ import (
 )
 
 // Action or event name
-type Action string
+type Action interface{}
 
 // Event is event object
 type Event struct {
@@ -18,20 +18,20 @@ type Event struct {
 // Sampler samples data according to given discrete distribution
 // This can be used to generate events for giving distribution
 // For example, for following distribution,
-// const (
-// 	Sleep = towersampling.Action("Sleep")
-// 	Walk  = towersampling.Action("Walk")
-// 	Watch = towersampling.Action("Watch")
-// 	Eat   = towersampling.Action("Eat")
-// )
-// ...
-// sampler := towersampling.Sampler([]towersampling.Event{
-// 	{Name: Sleep, Probability: 0.33},
-// 	{Name: Walk, Probability: 0.05},
-// 	{Name: Watch, Probability: 0.35},
-// 	{Name: Eat, Probability: 0.27},
-// })
-// value, err := sampler()
+//	const (
+// 		Sleep = towersampling.Action("Sleep")
+// 		Walk  = towersampling.Action("Walk")
+// 		Watch = towersampling.Action("Watch")
+// 		Eat   = towersampling.Action("Eat")
+// 	)
+//	...
+// 	sampler := towersampling.Sampler([]towersampling.Event{
+// 		{Name: Sleep, Probability: 0.33},
+// 		{Name: Walk, Probability: 0.05},
+// 		{Name: Watch, Probability: 0.35},
+// 		{Name: Eat, Probability: 0.27},
+// 	})
+// 	value, err := sampler()
 // the sampler will return Sleep with 33% probability.
 func Sampler(events []Event) func() (Action, error) {
 	distributions := make([]float32, len(events))
